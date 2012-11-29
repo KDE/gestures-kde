@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Service
+
+X-KDE-ServiceTypes=KDEDModule
+X-KDE-Library=gestures
+X-KDE-Kded-autoload=true
+X-KDE-Kded-phase=1
+
+Name=Gestures Daemon
+Comment=Handle touch gestures
