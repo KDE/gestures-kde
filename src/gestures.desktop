@@ -7,6 +7,7 @@ X-KDE-Kded-autoload=true
 X-KDE-Kded-phase=1
 
 Name=Gestures Daemon
+Name[cs]=Démon gest
 Name[ga]=Deamhan Gothaí
 Name[nl]=Daemon voor gebaren
 Name[pt]=Servidor de Gestos
