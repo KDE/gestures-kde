@@ -8,6 +8,7 @@ X-KDE-Kded-phase=1
 
 Name=Gestures Daemon
 Name[cs]=Démon gest
+Name[et]=Žestide deemon
 Name[ga]=Deamhan Gothaí
 Name[nl]=Daemon voor gebaren
 Name[pt]=Servidor de Gestos
@@ -17,6 +18,7 @@ Name[sv]=Gestdemon
 Name[uk]=Фонова служба жестів
 Name[x-test]=xxGestures Daemonxx
 Comment=Handle touch gestures
+Comment[et]=Puutežestide haldamine
 Comment[ga]=Láimhseáil gothaí tadhaill
 Comment[nl]=Aanraakgebaren behandelen
 Comment[pt]=Lida com os gestos por toque
