@@ -7,6 +7,7 @@ X-KDE-Kded-autoload=true
 X-KDE-Kded-phase=1
 
 Name=Gestures Daemon
+Name[bs]=Demon gestova
 Name[cs]=Démon gest
 Name[et]=Žestide deemon
 Name[ga]=Deamhan Gothaí
@@ -20,6 +21,7 @@ Name[sv]=Gestdemon
 Name[uk]=Фонова служба жестів
 Name[x-test]=xxGestures Daemonxx
 Comment=Handle touch gestures
+Comment[bs]=Upravlja dodirnim gestovima
 Comment[et]=Puutežestide haldamine
 Comment[ga]=Láimhseáil gothaí tadhaill
 Comment[nl]=Aanraakgebaren behandelen
