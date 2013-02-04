@@ -20,10 +20,6 @@
  */
 #include "Config.h"
 
-// ****************************************************************************************************************** //
-// **********                                      ANONYMOUS NAMESPACE                                     ********** //
-// ****************************************************************************************************************** //
-
 namespace
 {
     const char *USR_SHARE_CONFIG_FILE = "/usr/share/touchegg/touchegg.conf";
@@ -31,10 +27,6 @@ namespace
     const char *HOME_CONFIG_DIR       = ".config/touchegg";
 }
 
-
-// ****************************************************************************************************************** //
-// **********                                 STATIC METHODS AND VARIABLES                                 ********** //
-// ****************************************************************************************************************** //
 
 Config *Config::instance = NULL;
 
@@ -55,14 +47,9 @@ void Config::loadConfig()
     Config::getInstance();
 }
 
-
-// ****************************************************************************************************************** //
-// **********                                  CONSTRUCTORS AND DESTRUCTOR                                 ********** //
-// ****************************************************************************************************************** //
-
 Config::Config()
 {
-    this->composedGesturesTime = 0;
+    m_composedGesturesTime = 0;
     QFile homeFile(QDir::homePath() + HOME_CONFIG_FILE);
     QFile usrFile(USR_SHARE_CONFIG_FILE);
 
@@ -80,12 +67,8 @@ Config::Config()
 
     // Load the configuration into the QHash
     qDebug() << "Reading config from " << QDir::homePath() + HOME_CONFIG_FILE;
-    this->initConfig(homeFile);
+    initConfig(homeFile);
 }
-
-// ****************************************************************************************************************** //
-// **********                                        PRIVATE METHODS                                       ********** //
-// ****************************************************************************************************************** //
 
 void Config::initConfig(QFile &file)
 {
@@ -145,7 +128,7 @@ void Config::initConfig(QFile &file)
             for (QDomNode propNode = appNode.firstChild(); !propNode.isNull(); propNode = propNode.nextSibling()) {
                 if (!propNode.toElement().isNull()
                         && propNode.toElement().attribute("name") == "composed_gestures_time") {
-                    this->composedGesturesTime = propNode.toElement().text().toInt();
+                    m_composedGesturesTime = propNode.toElement().text().toInt();
                 }
             }
 
@@ -188,11 +171,9 @@ void Config::initConfig(QFile &file)
 
                 // Save the actions and the settings into the settings QHash
                 for (int n = 0; n < keys.length(); n++) {
-                    this->settings.insert(keys.at(n) + ".action", action);
-                    this->settings.insert(keys.at(n) + ".settings", settings);
+                    m_settings.insert(keys.at(n) + ".action", action);
+                    m_settings.insert(keys.at(n) + ".settings", settings);
                 }
-
-                //--------------------------------------------------------------
 
                 // If is an used gesture add it to the usedGestures QHash
                 if (action != "" && action != "NO_ACTION") {
@@ -201,7 +182,7 @@ void Config::initConfig(QFile &file)
                         QString gesture = gestureElem.attribute("type");
                         int fingers = gestureElem.attribute("fingers").toInt();
 
-                        this->saveUsedGestures(app, gesture, fingers);
+                        saveUsedGestures(app, gesture, fingers);
                     }
                 }
             }
@@ -213,8 +194,8 @@ void Config::initConfig(QFile &file)
 void Config::saveUsedGestures(const QString &app, const QString &gestureType, int numFingers)
 {
 
-    if (this->usedGestures.contains(app)) {
-        QList< QPair<QStringList, int> > aux = this->usedGestures.value(app);
+    if (m_usedGestures.contains(app)) {
+        QList< QPair<QStringList, int> > aux = m_usedGestures.value(app);
         QStringList gestures = GestureTypeEnum::getGeisEquivalent(GestureTypeEnum::getEnum(gestureType));
 
         QPair<QStringList, int> pair;
@@ -222,7 +203,7 @@ void Config::saveUsedGestures(const QString &app, const QString &gestureType, in
         pair.second = numFingers;
 
         aux.append(pair);
-        this->usedGestures.insert(app, aux);
+        m_usedGestures.insert(app, aux);
 
     } else {
         QList< QPair<QStringList, int> > aux;
@@ -233,30 +214,21 @@ void Config::saveUsedGestures(const QString &app, const QString &gestureType, in
         pair.second = numFingers;
 
         aux.append(pair);
-        this->usedGestures.insert(app, aux);
+        m_usedGestures.insert(app, aux);
     }
 }
-
-
-// ****************************************************************************************************************** //
-// **********                                          GET/SET/IS                                          ********** //
-// ****************************************************************************************************************** //
 
 QList< QPair<QStringList, int> >  Config::getUsedGestures(
     const QString &application) const
 {
-    QList< QPair<QStringList, int> > r = this->usedGestures.value(application);
+    QList< QPair<QStringList, int> > r = m_usedGestures.value(application);
     return r;
 }
 
-//------------------------------------------------------------------------------
-
 int Config::getComposedGesturesTime() const
 {
-    return this->composedGesturesTime;
+    return m_composedGesturesTime;
 }
-
-//------------------------------------------------------------------------------
 
 ActionTypeEnum::ActionType Config::getAssociatedAction(const QString &appClass,
         GestureTypeEnum::GestureType gestureType, int numFingers,
@@ -277,14 +249,14 @@ ActionTypeEnum::ActionType Config::getAssociatedAction(const QString &appClass,
             + GestureTypeEnum::getValue(gestureType) + "."
             + QString::number(numFingers) + ".ALL.action";
 
-    if (this->settings.contains(exactKey))
-        return ActionTypeEnum::getEnum(this->settings.value(exactKey));
-    else if (this->settings.contains(allDirectionsKey))
-        return ActionTypeEnum::getEnum(this->settings.value(allDirectionsKey));
-    else if (this->settings.contains(globalExactKey))
-        return ActionTypeEnum::getEnum(this->settings.value(globalExactKey));
-    else if (this->settings.contains(globalAllDirectionsKey))
-        return ActionTypeEnum::getEnum(this->settings.value(
+    if (m_settings.contains(exactKey))
+        return ActionTypeEnum::getEnum(m_settings.value(exactKey));
+    else if (m_settings.contains(allDirectionsKey))
+        return ActionTypeEnum::getEnum(m_settings.value(allDirectionsKey));
+    else if (m_settings.contains(globalExactKey))
+        return ActionTypeEnum::getEnum(m_settings.value(globalExactKey));
+    else if (m_settings.contains(globalAllDirectionsKey))
+        return ActionTypeEnum::getEnum(m_settings.value(
                 globalAllDirectionsKey));
     else
         return ActionTypeEnum::NO_ACTION;
@@ -309,14 +281,14 @@ QString Config::getAssociatedSettings(const QString &appClass,
             + GestureTypeEnum::getValue(gestureType) + "."
             + QString::number(numFingers) + ".ALL.settings";
 
-    if (this->settings.contains(exactKey))
-        return this->settings.value(exactKey);
-    else if (this->settings.contains(allDirectionsKey))
-        return this->settings.value(allDirectionsKey);
-    else if (this->settings.contains(globalExactKey))
-        return this->settings.value(globalExactKey);
-    else if (this->settings.contains(globalAllDirectionsKey))
-        return this->settings.value(globalAllDirectionsKey);
+    if (m_settings.contains(exactKey))
+        return m_settings.value(exactKey);
+    else if (m_settings.contains(allDirectionsKey))
+        return m_settings.value(allDirectionsKey);
+    else if (m_settings.contains(globalExactKey))
+        return m_settings.value(globalExactKey);
+    else if (m_settings.contains(globalAllDirectionsKey))
+        return m_settings.value(globalAllDirectionsKey);
     else
         return "";
 }

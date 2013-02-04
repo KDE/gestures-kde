@@ -45,8 +45,6 @@ public:
      */
     static void loadConfig();
 
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
      * Returns a list with all gestures used by the specified application.
      * If the app haven't got associated gestures returns an empty list.
@@ -56,15 +54,11 @@ public:
      */
     QList< QPair<QStringList, int> > getUsedGestures(const QString &application) const;
 
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
      * Returns the time, in milliseconds, which can run a composed gesture.
      * @return The time.
      */
     int getComposedGesturesTime() const;
-
-    //------------------------------------------------------------------------------------------------------------------
 
     /**
      * Returns the associated action type with a gesture.
@@ -108,26 +102,22 @@ private:
      */
     void saveUsedGestures(const QString &app, const QString &gestureType, int numFingers);
 
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
      * Time to wait between composed gestures.
      */
-    int composedGesturesTime;
+    int m_composedGesturesTime;
 
     /**
      * QHash with the configuration. The keys are like Application.GestureType.NumFingers.Direction.action/settings and
      * the value is the action or the settings associate to the gesture.
      */
-    QHash<QString, QString> settings;
+    QHash<QString, QString> m_settings;
 
     /**
      * QHash with the gestures used by Touchégg, being the key the application and the value the gestures.
      * The gestures are saved directly in the format used for GEIS to subscribe to this gestures.
      */
-    QHash<QString, QList< QPair<QStringList, int> > > usedGestures;
-
-    //------------------------------------------------------------------------------------------------------------------
+    QHash<QString, QList< QPair<QStringList, int> > > m_usedGestures;
 
     /**
      * Single instance of the class.

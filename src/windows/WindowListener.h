@@ -38,8 +38,6 @@ public:
      */
     WindowListener();
 
-    //------------------------------------------------------------------------------------------------------------------
-
     /**
      * Called whenever a X11 event occurs. Is necessary to filter that event to know if is a creation or destruction of
      * a window and emit the corresponding signals.
@@ -74,8 +72,6 @@ private:
      * @return The created/deleted window or None if the two list are equals.
      */
     Window getDifferentWindow(QList<Window> lnew, QList<Window> lold, bool *isNew) const;
-
-    //------------------------------------------------------------------------------------------------------------------
 
     /**
      * Current list with the existing windows.

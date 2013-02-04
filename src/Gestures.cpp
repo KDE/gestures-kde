@@ -20,12 +20,7 @@
  */
 #include "Gestures.h"
 
-// ****************************************************************************************************************** //
-// **********                                  CONSTRUCTORS AND DESTRUCTOR                                 ********** //
-// ****************************************************************************************************************** //
-
 #include <KGenericFactory>
-#include <KApplication>
 
 K_PLUGIN_FACTORY(GesturesFactory, registerPlugin<Gestures>();)
 K_EXPORT_PLUGIN(GesturesFactory("gestures"))
@@ -42,8 +37,6 @@ Gestures::Gestures(QObject *parent, const QVariantList &args) :
     qDebug() << "Try to make a multitouch gesture. If everything goes well the "
             "information about the gesture must appear";
 
-    kapp->installX11EventFilter(m_windowListener);
-
     connect(m_gestureCollector, SIGNAL(ready()), this, SLOT(start()));
 }
 
@@ -51,10 +44,6 @@ Gestures::~Gestures()
 {
     delete m_windowListener;
 }
-
-// ****************************************************************************************************************** //
-// **********                                         PRIVATE SLOTS                                        ********** //
-// ****************************************************************************************************************** //
 
 void Gestures::start()
 {

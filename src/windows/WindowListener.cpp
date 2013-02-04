@@ -20,20 +20,13 @@
  */
 #include "WindowListener.h"
 
-// ****************************************************************************************************************** //
-// **********                                  CONSTRUCTORS AND DESTRUCTOR                                 ********** //
-// ****************************************************************************************************************** //
+#include <KSystemEventFilter>
 
 WindowListener::WindowListener() :
     clientList(getClientList())
 {
-
+    KSystemEventFilter::installEventFilter(this);
 }
-
-
-// ****************************************************************************************************************** //
-// **********                                        PUBLIC METHODS                                        ********** //
-// ****************************************************************************************************************** //
 
 bool WindowListener::x11Event(XEvent *event)
 {
@@ -88,11 +81,6 @@ QList<Window> WindowListener::getClientList() const
     return ret;
 }
 
-
-// ****************************************************************************************************************** //
-// **********                                        PRIVATE METHODS                                       ********** //
-// ****************************************************************************************************************** //
-
 Window WindowListener::getDifferentWindow(QList<Window> lnew, QList<Window> lold, bool *isNew) const
 {
     if (lnew == lold) {
@@ -104,4 +92,3 @@ Window WindowListener::getDifferentWindow(QList<Window> lnew, QList<Window> lold
         return lnew.length() > lold.length() ? lnew.last() : lold.last();
     }
 }
-
