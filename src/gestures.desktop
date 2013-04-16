@@ -27,6 +27,7 @@ Name[uk]=Фонова служба жестів
 Name[x-test]=xxGestures Daemonxx
 Comment=Handle touch gestures
 Comment[bs]=Upravlja dodirnim gestovima
+Comment[de]=Verarbeitet Gesten auf Touch-Geräten
 Comment[es]=Maneja los gestos táctiles
 Comment[et]=Puutežestide haldamine
 Comment[fi]=Kosketuseleiden hallinta
